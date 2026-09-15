@@ -1,1 +1,1 @@
-AI was not used in the assignment apart from when instructed to do so via the openclaw agent
+AI was used in the assignment for debugging setup issues within the virtual environment 
