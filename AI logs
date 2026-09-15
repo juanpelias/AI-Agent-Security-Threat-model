@@ -1,0 +1,81 @@
+how do i set up the disk image? I currently have the virtual machine definition in virtualbox and i have a seprate machine with the disk image
+
+If the disk image (the Ubuntu .iso file) is currently on a completely different physical computer, you will first need to transfer that file to the host computer running VirtualBox (using a USB drive, cloud storage, or network transfer). VirtualBox needs local access to the file to boot from it.
+
+Once the .iso file is on the same machine as your VirtualBox installation, you can attach it to your virtual machine's optical drive to begin the installation.
+
+1
+Open Storage Settings
+Select your Ubuntu VM in the VirtualBox Manager and click the Settings gear icon. In the left-hand menu, click on Storage.
+
+2
+Select the Empty Drive
+Under the Storage Devices tree in the middle, look for Controller: IDE (or Controller: SATA). Below it, click on the CD icon labeled Empty.
+
+3
+Attach the Disk Image
+On the right side under Attributes, click the small, blue CD icon next to the "Optical Drive" dropdown. Select Choose a disk file... from the menu.
+
+4
+Select the ISO File
+Navigate to the folder where you saved the Ubuntu .iso file, select it, and click Open. The word "Empty" in the storage tree should now be replaced by the name of your ISO file.
+
+5
+Save and Start
+Click OK at the bottom to save your settings. Click the green Start arrow in the main VirtualBox window to power on the VM.
+
+To verify this worked, watch the VM window as it boots. Instead of a black screen or a "no bootable medium found" error, it should load directly into the Ubuntu installation menu or setup screen.
+
+this is the file i have
+
+24.04_VB_LinuxVMImages.COM.vdi.
+
+That file is a Virtual Disk Image (.vdi), which means it is a pre-installed virtual hard drive, not an installation CD (.iso). You do not need to run the Ubuntu installation process; you just need to attach this virtual hard drive to your VM.
+
+Since you already have a VM definition created, you need to swap out its blank hard drive for this .vdi file.
+
+1
+Open Storage Settings
+Select your VM in the VirtualBox Manager, click the Settings gear icon, and select Storage from the left menu.
+
+2
+Remove the Blank Drive
+Under Controller: SATA (or IDE), find the existing .vdi attachment (usually named after your VM). Right-click it and select Remove Attachment.
+
+3
+Add the Existing Disk
+Click the Add Hard Disk icon (a small square with a green plus sign) located to the right of Controller: SATA.
+
+4
+Select Your VDI File
+Click Add in the Hard Disk Selector window, navigate to where you saved 24.04_VB_LinuxVMImages.COM.vdi, select it, and click Open. Then click Choose to finalize the selection.
+
+5
+Save and Start
+Click OK to close the settings, then click the green Start arrow to boot the VM.
+
+To verify this worked, watch the boot process. Instead of prompting you to install Ubuntu, the VM will boot directly to the Ubuntu login screen or desktop.
+
+Cannot register the hard disk  because a hard disk with UUID already exists.
+
+This error happens because you previously tried to attach or open this virtual disk while it was still inside a temporary extraction folder (AppData\Local\Temp\). VirtualBox remembered its unique internal ID (UUID), so it is blocking you from attaching the newly extracted copy located in your Downloads folder.
+
+You need to tell VirtualBox to forget the old temporary file using the Virtual Media Manager.
+
+1
+Open Virtual Media Manager
+In the main VirtualBox Manager window, click on File in the top menu, then select Tools, and click on Virtual Media Manager.
+
+2
+Locate the Conflicting Disk
+Under the Hard disks tab, look through the list for Ubuntu_24.04_VB_LinuxVMImages.COM.vdi. Look at the "Location" path at the bottom of the window to find the one pointing to your AppData\Local\Temp folder.
+
+3
+Remove the Old Disk
+Click on that temporary .vdi file to select it. Click the Release button at the top (if it is clickable), and then click the Remove button. When prompted, confirm the removal.
+
+4
+Attach the Correct Disk
+Close the Virtual Media Manager. Go back to your VM's Settings > Storage, click the Add Hard Disk icon under your SATA controller, and select the .vdi file located in your Downloads folder.
+
+To verify this worked, the error pop-up will not appear when you select the file, and Ubuntu_24.04_VB_LinuxVMImages.COM.vdi will successfully appear under the Controller in your Storage settings.
