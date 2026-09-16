@@ -1,4 +1,4 @@
-# CSCE4645_HW1
+# AI Agent Security Threat Model
 ## Task 1.1: VM Installation
 
 1. **Provision the VM**: 
